@@ -1,0 +1,130 @@
+/* --------- GENERIC ---------*/
+* {
+  box-sizing: border-box;
+  font-family: "Work Sans", sans-serif;
+}
+
+html {
+  background-color: #FFFEF8;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+html,
+body,
+h1,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-family: "Syne", sans-serif;
+}
+
+/* --------- HEADER ---------*/
+.header {
+  display: flex;
+  align-items: center;
+  margin-top: 3%;
+  margin-inline: 7.41%;
+}
+.header-title {
+  width: 50%;
+}
+.header-title .color {
+  color: #B1663C;
+}
+.header-title .h1 {
+  font-size: 22px;
+  font-weight: 800;
+}
+.header .nav {
+  width: 50%;
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 5%;
+}
+.header .nav-text {
+  color: black;
+  text-decoration: none;
+}
+.header .nav .instagram {
+  display: flex;
+  width: 19.35px;
+  height: 19.35px;
+}
+
+/* --------- MAIN ---------*/
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  flex: 1;
+}
+.main .form {
+  display: flex;
+  flex-direction: column;
+  min-width: 26.32%;
+  margin-top: 10.5%;
+}
+.main .form h1 {
+  font-weight: 700;
+  color: #1D6154;
+  font-size: 30px;
+  margin-inline: auto;
+}
+.main .form form label {
+  margin-top: 8.85%;
+}
+.main .form #email,
+.main .form #password {
+  border: none;
+  min-height: 25px;
+  box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.0901960784);
+  height: 50px;
+}
+.main .form #form {
+  display: flex;
+  flex-direction: column;
+}
+.main .form .login {
+  background-color: #1D6154;
+  width: 47.4%;
+  height: 36px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  border: none;
+  border-radius: 60px;
+  color: white;
+  margin-top: 10%;
+  margin-inline: auto;
+}
+.main .form .passWordForget {
+  color: black;
+  margin-top: 7.13%;
+  margin-inline: auto;
+}
+.main .form .passwordFalse {
+  display: none;
+  color: red;
+}
+
+/* --------- FOOTER ---------*/
+.footer {
+  height: 10%;
+  background-color: white;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 7.43%;
+}
+
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,155 @@
+/* --------- GENERIC ---------*/
+
+$green-color : #1D6154;
+
+* {
+    box-sizing: border-box;
+    font-family: 'Work Sans', sans-serif;
+}
+
+html {
+    background-color: #FFFEF8;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+html,
+body,
+h1,
+p {
+    margin: 0;
+}
+
+h1 {
+    font-family: 'Syne', sans-serif;
+}
+
+/* --------- HEADER ---------*/
+.header {
+    display: flex;
+    align-items: center;
+    margin-top: 3%;
+    margin-inline: 7.41%;
+
+    &-title {
+        width: 50%;
+
+        .color {
+            color: #B1663C;
+        }
+
+        .h1 {
+            font-size: 22px;
+            font-weight: 800;
+        }
+    }
+
+    .nav {
+        width: 50%;
+        display: flex;
+        justify-content: flex-end;
+        column-gap: 5%;
+
+        &-text {
+            color: black;
+            text-decoration: none;
+
+        }
+
+        .instagram {
+            display: flex;
+            width: 19.35px;
+            height: 19.35px;
+        }
+    }
+}
+
+/* --------- MAIN ---------*/
+
+
+
+
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    flex: 1;
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        min-width: 26.32%;
+        margin-top: 10.50%;
+
+        & h1 {
+            font-weight: 700;
+            color: $green-color;
+            font-size: 30px;
+            margin-inline: auto;
+        }
+
+
+        & form label {
+            margin-top: 8.85%;
+        }
+
+        #email,
+        #password {
+            border: none;
+            min-height: 25px;
+            box-shadow: 0px 4px 14px 0px #00000017;
+            height: 50px;
+
+        }
+
+        #form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .login {
+            background-color: $green-color;
+            width: 47.4%;
+            height: 36px;
+            padding-top: 7px;
+            padding-bottom: 7px;
+            border: none;
+            border-radius: 60px;
+            color: white;
+            margin-top: 10%;
+            margin-inline: auto;
+
+        }
+
+        .passWordForget {
+            color: black;
+            margin-top: 7.13%;
+            margin-inline: auto;
+        }
+
+        .passwordFalse {
+            display: none;
+            color:red
+        }
+
+    }
+}
+
+/* --------- FOOTER ---------*/
+
+.footer {
+    height: 10%;
+    background-color: white;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 7.43%;
+}

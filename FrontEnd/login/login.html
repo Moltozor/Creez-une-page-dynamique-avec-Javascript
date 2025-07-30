@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./Sass/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Shrikhand&family=Syne:wght@400..800&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Shrikhand&family=Syne:wght@400..800&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <title>Formulaire de connexion</title>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-title">
+            <h1 class="color h1">Sophie bluel</h1>
+            <p class="color">Architecte d'intérieur</p>
+        </div>
+        <nav class="nav">
+            <a href="#" class="nav-text">Projets</a>
+            <a href="#" class="nav-text">Contact</a>
+            <a href="#" class="nav-text">Login</a>
+            <a href="#" class="nav-text">
+                <img src="../assets/icons/instagram.png" alt="instagram" class="instagram">
+            </a>
+        </nav>
+    </header>
+    <main class="main">
+
+        <section class="form">
+            <h1>Log in</h1>
+
+            <p class="passwordFalse">Adresse email ou mot de passe incorrecte</p>
+
+            <form action="../index.html" method="" id="form">
+
+                <label for="email">E-mail</label>
+                <input type="email" name="email" id="email" autocomplete="username" value="sophie.bluel@test.tld"
+                    autofocus required>
+
+                <label for="password">Mot de passe</label>
+                <input type="password" name="password" id="password" autocomplete="current-password" value="S0phie"
+                    required>
+
+                <input type="submit" class="login" value="Se connecter">
+
+            </form>
+
+
+            <a href="#" class="passWordForget">
+                Mot de passe oublié
+            </a>
+        </section>
+    </main>
+    <footer class="footer">
+        <p>Mentions légales</p>
+    </footer>
+    <script type="module" src="login.js"></script>
+</body>
+
+</html>
