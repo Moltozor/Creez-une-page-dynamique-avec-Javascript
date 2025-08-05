@@ -3,81 +3,94 @@
 export const url = `http://localhost:5678/api/`;
 export let isAdmin = window.localStorage.getItem("token");
 
-fetch(url + `works`)
-    .then(reponse => reponse.json())
-    .then(data => {
-        const gallery = document.querySelector(".gallery");
-        gallery.innerHTML = "";
+/*
+
+getworks(".gallery");
+getCategories();
+
+async function getworks(selector) {
+    //selector.preventDefault();
+    //const str_Selector = document.querySelector(selector);
+    fetch(url + `works`)
+        .then(reponse => reponse.json())
+        .then(data => {
+            const gallery = document.querySelector(".gallery");
+            gallery.innerHTML = "";
 
 
-        for (let i = 0; i < data.length; i++) {
-            const figure = document.createElement("figure");
+            for (let i = 0; i < data.length; i++) {
+                const figure = document.createElement("figure");
 
-            const img = document.createElement("img");
-            const figcaption = document.createElement("figcaption");
-            img.src = data[i].imageUrl;
-            img.alt = data[i].title;
-            figcaption.innerText = data[i].title;
+                const img = document.createElement("img");
+                const figcaption = document.createElement("figcaption");
+                img.src = data[i].imageUrl;
+                img.alt = data[i].title;
+                figcaption.innerText = data[i].title;
 
-            figure.appendChild(img);
-            figure.appendChild(figcaption);
+                figure.appendChild(img);
+                figure.appendChild(figcaption);
 
-            document.querySelector(".gallery").appendChild(figure);
+                document.querySelector(".gallery").appendChild(figure);
 
-        };
-    });
-
-fetch(url + `categories`)
-    .then(reponse => reponse.json())
-    .then(data => {
-
-
-        for (let i = 0; i < data.length; i++) {
-            const button = document.createElement("button");
-
-            button.innerText = data[i].name;
-            button.id = data[i].id;
-
-            document.querySelector(".filter_gallery").appendChild(button);
-
-        }
-
-
-        document.querySelectorAll(".filter_gallery button").forEach(button => {
-            button.addEventListener(`click`, (event) => {
-                let event_id = event.target.id;
-                event_id = Number(event_id);
-
-                document.querySelector(".gallery").innerHTML = "";
-
-                fetch(url + `works`)
-                    .then(reponse => reponse.json())
-                    .then(data => {
-
-                        for (let i = 0; i < data.length; i++) {
-                            const figure = document.createElement("figure");
-                            const img = document.createElement("img");
-                            const figcaption = document.createElement("figcaption");
-
-                            if (event_id === 0 || data[i].categoryId === event_id) {
-                                img.src = data[i].imageUrl;
-                                img.alt = data[i].title;
-                                figcaption.innerText = data[i].title;
-
-                                figure.appendChild(img);
-                                figure.appendChild(figcaption);
-                                document.querySelector(".gallery").appendChild(figure);
-                            }
-
-                        }
-                    });
-            });
-
+            };
         });
-    });
+}
 
+async function getCategories() {
+    fetch(url + `categories`)
+        .then(reponse => reponse.json())
+        .then(data => {
+
+
+            for (let i = 0; i < data.length; i++) {
+                const button = document.createElement("button");
+
+                button.innerText = data[i].name;
+                button.id = data[i].id;
+
+                document.querySelector(".filter_gallery").appendChild(button);
+
+            }
+
+
+            document.querySelectorAll(".filter_gallery button").forEach(button => {
+                button.addEventListener(`click`, (event) => {
+                    let event_id = event.target.id;
+                    event_id = Number(event_id);
+
+                    document.querySelector(".gallery").innerHTML = "";
+
+                    fetch(url + `works`)
+                        .then(reponse => reponse.json())
+                        .then(data => {
+
+                            for (let i = 0; i < data.length; i++) {
+                                const figure = document.createElement("figure");
+                                const img = document.createElement("img");
+                                const figcaption = document.createElement("figcaption");
+
+                                if (event_id === 0 || data[i].categoryId === event_id) {
+                                    img.src = data[i].imageUrl;
+                                    img.alt = data[i].title;
+                                    figcaption.innerText = data[i].title;
+
+                                    figure.appendChild(img);
+                                    figure.appendChild(figcaption);
+                                    document.querySelector(".gallery").appendChild(figure);
+                                }
+
+                            }
+                        });
+                });
+
+            });
+        });
+}
 
 /* -------------------- */
+
+/*
+
 
 function handleAdminActions() {
     if (isAdmin) {
@@ -129,6 +142,8 @@ function filterGallery_Color(selector) {
 filterGallery_Color("0");
 
 handleAdminActions();
+
+*/
 
 
 

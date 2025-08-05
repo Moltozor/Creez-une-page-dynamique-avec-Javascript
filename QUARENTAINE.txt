@@ -255,3 +255,59 @@ async function removePicture() {
 }
 
 removePicture();
+
+
+
+
+
+-----------------------------------------------------------------------------
+
+Code fonction removePicture : 
+
+/*
+    trash_can.forEach(icon => {
+        icon.addEventListener("click", async event => {
+            //event.preventDefault();
+            //event.stopPropagation();
+
+            const id = event.target.id;
+            console.log(id);
+
+            if (token) {
+                const response = await fetch(url + "works/" + id, {
+                    method: "DELETE",
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    },
+                });
+                console.log(response);
+
+            }
+        });
+        icon.addEventListener("click", async (e) => {
+            const id = e.target.id;
+            const init = {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${isAdmin}`,
+                },
+            };
+            try {
+                const response = await fetch(url + "works" + id,
+                    init
+                );
+                if (response.ok) {
+                    //location.reload();
+                    //getworks();
+                    //pictureModal();
+                }
+            } catch (error) {
+                console.log("image delete error", error);
+            }
+        });
+
+
+    });
+
+    */
