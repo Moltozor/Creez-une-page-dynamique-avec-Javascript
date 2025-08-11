@@ -1,5 +1,4 @@
 let modal = null;
-let focusables = [];
 import { isAdmin, url } from "./script.js";
 
 /* --------- CODE TUTORIEL ------------ */
@@ -39,7 +38,7 @@ document.querySelector(".modify").addEventListener("click", (event) => {
   openModal();
   getworks();
   setupModalGallery();
-
+  updateModalSize();
 });
 
 
@@ -81,7 +80,7 @@ function handleRemoveWorks(id, modalWrapper, container) {
   container.appendChild(trash_can);
 }
 
-//
+
 
 function handleWorksDisplayInGallery(data) {
   const gallery = document.querySelector(".gallery");
@@ -145,18 +144,21 @@ getworks();
 
 
 
-/* -------------- SIMPLEMENT POUR AJOUTER DE NOUVELLE PHOTO TEST -------------- */
+/* -------------- FORMULARY OF MODAL -------------- */
 
 const form = `<form id="photoForm">
     <!-- 1. Photo -->
     <div class="form-group">
-    <i class="fa-regular fa-image"></i>
+    <i class="form-display fa-regular fa-image"></i>
 
-    <label for="image">+ Ajouter photo</label>
+    <label for="image" class="form-display">+ Ajouter photo</label>
     <input type="file" id="image" name="image" accept="image/*" style="display: none;" required>
 
-    <p class="form-text">jpg, png : 4mo max</p>
-  </div>
+    <p class="form-display form-text">jpg, png : 4mo max</p>
+
+    <img id="preview" alt="Aperçu de l'image" style="display:none;">
+    </div>
+
 
     <!-- 2. Titre -->
     <label for="title" style="margin-top: 30px;">Titre :</label>
@@ -173,10 +175,12 @@ const form = `<form id="photoForm">
 
   </form>`;
 
+
 function addPicture() {
   const addButton = document.querySelector(".add-picture");
   const galleryModify = document.querySelector(".gallery-modify");
   const titleModal = document.querySelector(".title-modal");
+  const arrowLeft = document.querySelector(".arrow-left");
 
   if (!addButton || !galleryModify || !titleModal) return;
 
@@ -188,12 +192,16 @@ function addPicture() {
 
   function setupModalUI() {
     titleModal.textContent = "Ajout Photo";
+
     galleryModify.style.display = "flex";
     galleryModify.style.justifyContent = "center";
     galleryModify.style.paddingBottom = "0px";
     galleryModify.style.marginTop = "36px";
+
     addButton.style.display = "none";
-  }
+    arrowLeft.style.display = "block";
+    document.querySelector(".close-modal").style.justifyContent = "space-between";
+  };
 
   function injectForm() {
     if (typeof form !== "string") {
@@ -201,7 +209,31 @@ function addPicture() {
       return;
     }
     galleryModify.innerHTML = form;
-  }
+    displayPicture();
+
+    function displayPicture() {
+      const inputImage = document.getElementById('image');
+      const preview = document.getElementById('preview');
+
+      inputImage.addEventListener("change", (e) => {
+        const displayElements = document.querySelectorAll(".form-display");
+
+        displayElements.forEach((elements) => {
+          elements.style.display = "none";
+        });
+
+        const file = e.target.files[0];
+
+        const url = URL.createObjectURL(file);
+        preview.src = url;
+        preview.style.display = 'block';
+        preview.style.height = "100%";
+        preview.style.width = "129px";
+      });
+
+
+    };
+  };
 
   function setupForm() {
     const photoForm = document.querySelector("#photoForm");
@@ -222,7 +254,7 @@ function addPicture() {
 
   async function chargerCategories() {
     try {
-      const response = await fetch(`${url}categories`);
+      const response = await fetch(url + "categories");
       const categories = await response.json();
 
       const select = document.getElementById("category");
@@ -284,7 +316,7 @@ function addPicture() {
 
     try {
       console.log(token);
-      const response = await fetch(`${url}works`, {
+      const response = await fetch(url + "works", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -319,11 +351,15 @@ addPicture();
 
 function setupModalGallery() {
   const galleryModify = document.querySelector(".gallery-modify");
+  document.querySelector(".gallery-modify").innerHTML = ""; // TEST
+
   galleryModify.style.display = "grid";
   galleryModify.style.paddingBottom = "67.3px";
   galleryModify.style.marginTop = "46px";
   document.querySelector(".title-modal").textContent = "Galerie photo";
   document.querySelector(".add-picture").style.display = "block";
+  document.querySelector(".arrow-left").style.display = "none";
+  document.querySelector(".close-modal").style.justifyContent = "end";
 };
 
 
@@ -338,28 +374,14 @@ function handleAdminActions() {
     logOut.innerText = "logout";
     filter_gallery.style.display = "none";
     inlineBlock.style.marginBottom = "92px";
+    document.querySelector(".modify").style.display = "flex"
 
-    /*
-    logOut.addEventListener("click", (event) => {
-      if (isAdmin) {
-        event.preventDefault();
-      }
-
-      window.localStorage.removeItem("token");
-      //isAdmin = false;
-
-      // DYNAMIC RULES
-      logOut.innerText = "Login";
-      document.querySelector(".modify").style.display = "none";
-      document.querySelector(".filter_gallery").style.display = "flex";
-    });
-    */
     logOut.addEventListener("click", (event) => {
       const token = window.localStorage.getItem("token");
 
-      // Si un token est présent, empêcher la redirection et faire la déconnexion
       if (token) {
         event.preventDefault();
+
 
         window.localStorage.removeItem("token");
 
@@ -369,10 +391,24 @@ function handleAdminActions() {
         document.querySelector(".filter_gallery").style.display = "flex";
       }
 
-      // Sinon (token déjà supprimé), le lien <a> fonctionnera normalement (redirigera)
     });
 
   };
-}
+};
+
+function updateModalSize() {
+  const modal = document.querySelector(".gallery-modify");
+
+  setTimeout(() => {
+    const width = modal.offsetWidth;
+    modal.style.width = `${width}px`;
+    console.log(width);
+  }, 150);
+};
+
+document.querySelector(".arrow-left").addEventListener("click", () => {
+  getworks();
+  setupModalGallery();
+});
 
 handleAdminActions();

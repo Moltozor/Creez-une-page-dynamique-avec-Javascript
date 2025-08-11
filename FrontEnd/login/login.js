@@ -2,6 +2,8 @@
 
 const url = "http://localhost:5678/api/";
 
+
+
 const form = document.querySelector("#form");
 
 form.addEventListener(`submit`, event => {
@@ -18,18 +20,6 @@ form.addEventListener(`submit`, event => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(login)
     })
-        /*.then(response => {
-            console.log("message", response);
-            if (response.status === 200) {
-                //window.location.href = "../index.html";
-            }
-            else if (response.status === 401) {
-                // .... traiter email et/ou password
-
-            };
-
-            return response.json();
-        }) */
         .then(async (response) => {
             const data = await response.json();
             console.log("message-2", data);
@@ -49,28 +39,3 @@ form.addEventListener(`submit`, event => {
 
         })
 });
-
-/* 
-let id = window.localStorage.getItem("login");
-
-    if (id === null) {
-        window.localStorage.setItem("login", JSON.stringify(login));
-    };
-
-*/
-
-
-/*
-fetch(url + "users/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json()" },
-        body: `{login}`
-
-
-    })
-        .then(reponse => {
-            if (reponse !== null) {
-                reponse.json();
-            }
-        });
- */
