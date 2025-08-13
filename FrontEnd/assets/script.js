@@ -20,7 +20,7 @@ async function getCategories() {
 
                 document.querySelector(".filter_gallery").appendChild(button);
 
-            }
+            };
 
 
             document.querySelectorAll(".filter_gallery button").forEach(button => {

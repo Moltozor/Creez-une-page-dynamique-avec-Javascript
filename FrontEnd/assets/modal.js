@@ -32,12 +32,7 @@ const stopPropagation = async function (e) {
 document.querySelector(".modify").addEventListener("click", (event) => {
   event.preventDefault();
   event.stopPropagation();
-
-  const galleryModify = document.querySelector(".gallery-modify");
-  galleryModify.innerHTML = "";
   openModal();
-  getworks();
-  setupModalGallery();
   updateModalSize();
 });
 
@@ -192,24 +187,15 @@ function addPicture() {
 
   function setupModalUI() {
     titleModal.textContent = "Ajout Photo";
-
     galleryModify.style.display = "flex";
     galleryModify.style.justifyContent = "center";
     galleryModify.style.paddingBottom = "0px";
     galleryModify.style.marginTop = "36px";
-
     addButton.style.display = "none";
     arrowLeft.style.display = "block";
     document.querySelector(".close-modal").style.justifyContent = "space-between";
-  };
 
-  function injectForm() {
-    if (typeof form !== "string") {
-      console.error("Le formulaire n'est pas défini !");
-      return;
-    }
-    galleryModify.innerHTML = form;
-    displayPicture();
+  };
 
     function displayPicture() {
       const inputImage = document.getElementById('image');
@@ -233,6 +219,14 @@ function addPicture() {
 
 
     };
+  function injectForm() {
+    if (typeof form !== "string") {
+      console.error("Le formulaire n'est pas défini !");
+      return;
+    }
+    galleryModify.innerHTML = form;
+    displayPicture();
+
   };
 
   function setupForm() {
@@ -329,7 +323,6 @@ function addPicture() {
         throw new Error("Erreur lors de l'envoi du projet.");
       }
 
-      const data = await response.json();
       alert("Projet ajouté avec succès !");
       event.target.reset();
     } catch (error) {
