@@ -3,8 +3,10 @@
 export const url = `http://localhost:5678/api/`;
 export let isAdmin = window.localStorage.getItem("token");
 
-getCategories();
-filterGallery_Color("0");
+if (!isAdmin) {
+    getCategories();
+    filterGallery_Color("0");
+}
 
 async function getCategories() {
     await fetch(url + `categories`)

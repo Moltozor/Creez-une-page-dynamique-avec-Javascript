@@ -5,7 +5,7 @@ import { isAdmin, url } from "./script.js";
 
 const openModal = function () {
   modal = document.querySelector("#modal1");
-  modal.style.display = null;
+  modal.style.display = "flex";
 
   modal.addEventListener("click", closeModal);
   modal.querySelector(".js-modal-close").addEventListener("click", closeModal);
@@ -37,14 +37,83 @@ document.querySelector(".modify").addEventListener("click", (event) => {
 });
 
 
-
 /* ------------------------------------- */
+/*
+async function handleGallery(selector) {
+  const gallery = document.querySelector(selector);
+  if (!gallery) return;
+
+  //gallery.replaceChildren();
+
+
+
+  // Integration of works into the modal
+  try {
+    const response = await fetch(url + "works");
+    let data;
+
+    if (response.ok) {
+      data = await response.json();
+      console.log(data);
+    } else {
+      console.log("API response:", response.status);
+      return;
+    }
+
+    for (let i = 0; i < data.length; i++) {
+      const div = document.createElement("div");
+      const img = document.createElement("img");
+
+      img.src = data[i].imageUrl;
+      img.id = data[i].id;
+
+      div.appendChild(img);
+      gallery.appendChild(div);
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+handleGallery(".gallery-modify");
+
+
+document.querySelector(".gallery-modify").addEventListener("click", async (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+
+  const id = event.target.id;
+  const token = window.localStorage.getItem("token");
+  if (!token) console.log("Vous n'êtes pas connecter");
+
+  const init = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+
+  if (event.target.tagName === "IMG") {
+    document.querySelector(".gallery-modify").replaceChildren();
+    await fetch(url + "works/" + id, init);
+    handleGallery(".gallery-modify");
+  }
+});
+
+*/
+
+
+
+
+
 
 function handleRemoveWorks(id, modalWrapper, container) {
   // Create a trash can icon
   const trash_can = document.createElement("i");
   trash_can.className = "fa-solid fa-trash-can";
   trash_can.id = id;
+  
 
   // Remove Picture
   trash_can.addEventListener("click", async (event) => {
@@ -63,8 +132,8 @@ function handleRemoveWorks(id, modalWrapper, container) {
 
       const response = await fetch(url + "works/" + id, init);
       if (response.ok) {
-        modalWrapper.innerHTML = "";
         getworks();
+
       } else {
         console.log("Échec de la suppression. Statut :", response.status);
       }
@@ -72,14 +141,16 @@ function handleRemoveWorks(id, modalWrapper, container) {
       console.error("Erreur lors de la suppression :", error);
     }
   });
+
+
   container.appendChild(trash_can);
 }
 
 
-
 function handleWorksDisplayInGallery(data) {
   const gallery = document.querySelector(".gallery");
-  gallery.innerHTML = "";
+  //gallery.innerHTML = "";
+  gallery.replaceChildren();
 
   for (let i = 0; i < data.length; i++) {
     const figure = document.createElement("figure");
@@ -88,18 +159,20 @@ function handleWorksDisplayInGallery(data) {
     const figcaption = document.createElement("figcaption");
     img.src = data[i].imageUrl;
     img.alt = data[i].title;
-    figcaption.innerText = data[i].title;
+    figcaption.textContent = data[i].title;
 
     figure.appendChild(img);
     figure.appendChild(figcaption);
 
-    document.querySelector(".gallery").appendChild(figure);
+    gallery.appendChild(figure);
   }
 }
 
 
 function handleWorksDisplayInModal(data) {
   const modalWrapper = document.querySelector(".gallery-modify");
+  //modalWrapper.innerHTML = "";
+  modalWrapper.replaceChildren();
 
   for (let i = 0; i < data.length; i++) {
     // Create a containt for image and icon
@@ -126,18 +199,15 @@ async function getworks() {
     const response = await fetch(url + "works");
     const data = await response.json();
 
+    handleWorksDisplayInModal(data);
+
     handleWorksDisplayInGallery(data);
-
-    handleWorksDisplayInModal(data)
-
   } catch (error) {
     console.log("Message d'erreur:", error);
   }
 }
 
 getworks();
-
-
 
 /* -------------- FORMULARY OF MODAL -------------- */
 
@@ -161,7 +231,7 @@ const form = `<form id="photoForm">
 
     <!-- 3. Catégorie -->
     <label for="category" style="margin-top: 21px;">Catégorie :</label>
-    <select id="category" name="category" value="Sélectionner une catégories" style="margin-bottom: 47px" required>
+    <select id="category" name="category" value="Sélectionner une catégorie" style="margin-bottom: 47px" required>
     </select>
 
     <div class="validButton">
@@ -197,28 +267,28 @@ function addPicture() {
 
   };
 
-    function displayPicture() {
-      const inputImage = document.getElementById('image');
-      const preview = document.getElementById('preview');
+  function displayPicture() {
+    const inputImage = document.getElementById('image');
+    const preview = document.getElementById('preview');
 
-      inputImage.addEventListener("change", (e) => {
-        const displayElements = document.querySelectorAll(".form-display");
+    inputImage.addEventListener("change", (e) => {
+      const displayElements = document.querySelectorAll(".form-display");
 
-        displayElements.forEach((elements) => {
-          elements.style.display = "none";
-        });
-
-        const file = e.target.files[0];
-
-        const url = URL.createObjectURL(file);
-        preview.src = url;
-        preview.style.display = 'block';
-        preview.style.height = "100%";
-        preview.style.width = "129px";
+      displayElements.forEach((elements) => {
+        elements.style.display = "none";
       });
 
+      const file = e.target.files[0];
 
-    };
+      const url = URL.createObjectURL(file);
+      preview.src = url;
+      preview.style.display = 'block';
+      preview.style.height = "100%";
+      preview.style.width = "129px";
+    });
+
+
+  };
   function injectForm() {
     if (typeof form !== "string") {
       console.error("Le formulaire n'est pas défini !");
@@ -389,19 +459,17 @@ function handleAdminActions() {
   };
 };
 
+document.querySelector(".arrow-left").addEventListener("click", () => {
+  getworks();
+  setupModalGallery();
+});
+
 function updateModalSize() {
   const modal = document.querySelector(".gallery-modify");
 
   setTimeout(() => {
     const width = modal.offsetWidth;
     modal.style.width = `${width}px`;
-    console.log(width);
   }, 150);
 };
-
-document.querySelector(".arrow-left").addEventListener("click", () => {
-  getworks();
-  setupModalGallery();
-});
-
 handleAdminActions();
