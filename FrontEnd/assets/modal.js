@@ -38,75 +38,6 @@ document.querySelector(".modify").addEventListener("click", (event) => {
 
 
 /* ------------------------------------- */
-/*
-async function handleGallery(selector) {
-  const gallery = document.querySelector(selector);
-  if (!gallery) return;
-
-  //gallery.replaceChildren();
-
-
-
-  // Integration of works into the modal
-  try {
-    const response = await fetch(url + "works");
-    let data;
-
-    if (response.ok) {
-      data = await response.json();
-      console.log(data);
-    } else {
-      console.log("API response:", response.status);
-      return;
-    }
-
-    for (let i = 0; i < data.length; i++) {
-      const div = document.createElement("div");
-      const img = document.createElement("img");
-
-      img.src = data[i].imageUrl;
-      img.id = data[i].id;
-
-      div.appendChild(img);
-      gallery.appendChild(div);
-    }
-
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-handleGallery(".gallery-modify");
-
-
-document.querySelector(".gallery-modify").addEventListener("click", async (event) => {
-  event.preventDefault();
-  event.stopPropagation();
-
-  const id = event.target.id;
-  const token = window.localStorage.getItem("token");
-  if (!token) console.log("Vous n'êtes pas connecter");
-
-  const init = {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
-
-  if (event.target.tagName === "IMG") {
-    document.querySelector(".gallery-modify").replaceChildren();
-    await fetch(url + "works/" + id, init);
-    handleGallery(".gallery-modify");
-  }
-});
-
-*/
-
-
-
-
-
 
 function handleRemoveWorks(id, modalWrapper, container) {
   // Create a trash can icon
@@ -394,6 +325,10 @@ function addPicture() {
       }
 
       alert("Projet ajouté avec succès !");
+      closeModal();
+      getworks();
+      setupModalGallery();
+
       event.target.reset();
     } catch (error) {
       console.error(error);
