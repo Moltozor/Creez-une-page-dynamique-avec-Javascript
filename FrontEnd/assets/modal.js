@@ -1,7 +1,7 @@
 let modal = null;
 import { isAdmin, url } from "./script.js";
 
-/* --------- CODE TUTORIEL ------------ */
+/* --------- Open and close modal ------------ */
 
 const openModal = function () {
   modal = document.querySelector("#modal1");
@@ -28,7 +28,7 @@ const stopPropagation = async function (e) {
 };
 
 
-
+// Button modify
 document.querySelector(".modify").addEventListener("click", (event) => {
   event.preventDefault();
   event.stopPropagation();
@@ -36,15 +36,15 @@ document.querySelector(".modify").addEventListener("click", (event) => {
   updateModalSize();
 });
 
-
 /* ------------------------------------- */
 
-function handleRemoveWorks(id, modalWrapper, container) {
+// Remove works
+function handleRemoveWorks(id, container) {
   // Create a trash can icon
   const trash_can = document.createElement("i");
   trash_can.className = "fa-solid fa-trash-can";
   trash_can.id = id;
-  
+
 
   // Remove Picture
   trash_can.addEventListener("click", async (event) => {
@@ -66,21 +66,20 @@ function handleRemoveWorks(id, modalWrapper, container) {
         getworks();
 
       } else {
-        console.log("Échec de la suppression. Statut :", response.status);
+        console.log("Deletion failed. Status:", response.status);
       }
     } catch (error) {
-      console.error("Erreur lors de la suppression :", error);
+      console.error("Error deleting:", error);
     }
   });
 
 
   container.appendChild(trash_can);
-}
+};
 
-
+// Display in gallery
 function handleWorksDisplayInGallery(data) {
   const gallery = document.querySelector(".gallery");
-  //gallery.innerHTML = "";
   gallery.replaceChildren();
 
   for (let i = 0; i < data.length; i++) {
@@ -96,13 +95,12 @@ function handleWorksDisplayInGallery(data) {
     figure.appendChild(figcaption);
 
     gallery.appendChild(figure);
-  }
-}
+  };
+};
 
-
+// Display in modal
 function handleWorksDisplayInModal(data) {
   const modalWrapper = document.querySelector(".gallery-modify");
-  //modalWrapper.innerHTML = "";
   modalWrapper.replaceChildren();
 
   for (let i = 0; i < data.length; i++) {
@@ -115,16 +113,17 @@ function handleWorksDisplayInModal(data) {
     const modalImg = document.createElement("img");
     modalImg.src = data[i].imageUrl;
 
-    handleRemoveWorks(data[i].id, modalWrapper, container);
+    handleRemoveWorks(data[i].id, container);
 
     // Assemble everything
     container.appendChild(modalImg);
 
     // Add to wrapper
     modalWrapper.appendChild(container);
-  }
-}
+  };
+};
 
+// get works in gallery and modal
 async function getworks() {
   try {
     const response = await fetch(url + "works");
@@ -134,9 +133,9 @@ async function getworks() {
 
     handleWorksDisplayInGallery(data);
   } catch (error) {
-    console.log("Message d'erreur:", error);
+    console.log("Error message:", error);
   }
-}
+};
 
 getworks();
 
@@ -171,7 +170,7 @@ const form = `<form id="photoForm">
 
   </form>`;
 
-
+// Set up the modal UI/form and inject the form
 function addPicture() {
   const addButton = document.querySelector(".add-picture");
   const galleryModify = document.querySelector(".gallery-modify");
@@ -197,7 +196,7 @@ function addPicture() {
     document.querySelector(".close-modal").style.justifyContent = "space-between";
 
   };
-
+  // rules style of the image into Form UI
   function displayPicture() {
     const inputImage = document.getElementById('image');
     const preview = document.getElementById('preview');
@@ -217,36 +216,35 @@ function addPicture() {
       preview.style.height = "100%";
       preview.style.width = "129px";
     });
-
-
   };
+  // Inject form, into addPicture()
   function injectForm() {
     if (typeof form !== "string") {
-      console.error("Le formulaire n'est pas défini !");
+      console.error("The form is not defined!");
       return;
-    }
+    };
     galleryModify.innerHTML = form;
     displayPicture();
 
   };
-
+  // set up form, into addPicture()
   function setupForm() {
     const photoForm = document.querySelector("#photoForm");
     if (!photoForm) {
-      console.error("Formulaire non trouvé");
+      console.error("Form not found");
       return;
-    }
+    };
 
     chargerCategories();
 
-    // Supprimer tout ancien écouteur de soumission
+    // Delete any old submission listener
     photoForm.addEventListener("submit", (event) => {
       event.preventDefault();
       event.stopPropagation();
       handleFormSubmit(event);
     });
-  }
-
+  };
+  // Adding categories since API for the form
   async function chargerCategories() {
     try {
       const response = await fetch(url + "categories");
@@ -271,18 +269,17 @@ function addPicture() {
         select.appendChild(option);
       });
     } catch (error) {
-      console.error("Erreur lors du chargement des catégories :", error);
+      console.error("Error loading categories:", error);
       const select = document.getElementById("category");
       if (select) {
         select.innerHTML = '<option value="">Erreur de chargement</option>';
-      }
+      };
     }
-  }
-
+  };
+  // Handle of submit
   async function handleFormSubmit(event) {
     event.preventDefault();
     event.stopPropagation();
-    console.log("Message:", event);
 
     const token = window.localStorage.getItem("token");
     const fileInput = document.querySelector("#image");
@@ -290,19 +287,19 @@ function addPicture() {
     const categoryInput = document.querySelector("#category");
 
     if (!fileInput || !titleInput || !categoryInput) {
-      alert("Champs du formulaire introuvables.");
+      alert("Form fields not found.");
       return;
-    }
+    };
 
     if (!validateForm(fileInput, titleInput, categoryInput)) {
-      alert("Veuillez remplir tous les champs du formulaire.");
+      alert("Please fill in all fields in the form.");
       return;
-    }
+    };
 
     if (!token) {
-      alert("Vous devez être connecté pour ajouter un projet.");
+      alert("You must be logged in to add a project.");
       return;
-    }
+    };
 
     const formData = new FormData();
     formData.append("image", fileInput.files[0]);
@@ -310,7 +307,6 @@ function addPicture() {
     formData.append("category", categoryInput.value);
 
     try {
-      console.log(token);
       const response = await fetch(url + "works", {
         method: "POST",
         headers: {
@@ -321,10 +317,10 @@ function addPicture() {
       });
 
       if (!response.ok) {
-        throw new Error("Erreur lors de l'envoi du projet.");
-      }
+        throw new Error("Error sending project.");
+      };
 
-      alert("Projet ajouté avec succès !");
+      alert("Project added successfully!");
       closeModal();
       getworks();
       setupModalGallery();
@@ -332,9 +328,9 @@ function addPicture() {
       event.target.reset();
     } catch (error) {
       console.error(error);
-      alert("Une erreur est survenue lors de l'envoi du projet.");
+      alert("An error occurred while sending the project.");
     }
-  }
+  };
 
   function validateForm(fileInput, titleInput, categoryInput) {
     return (
@@ -342,14 +338,15 @@ function addPicture() {
       titleInput.value.trim() !== "" &&
       categoryInput.value.trim() !== ""
     );
-  }
+  };
 };
 
 addPicture();
 
+// Back to the UI gallery
 function setupModalGallery() {
   const galleryModify = document.querySelector(".gallery-modify");
-  document.querySelector(".gallery-modify").innerHTML = ""; // TEST
+  document.querySelector(".gallery-modify").innerHTML = "";
 
   galleryModify.style.display = "grid";
   galleryModify.style.paddingBottom = "67.3px";
@@ -360,7 +357,7 @@ function setupModalGallery() {
   document.querySelector(".close-modal").style.justifyContent = "end";
 };
 
-
+// Handle admin token and style rules
 function handleAdminActions() {
   if (isAdmin) {
     const logOut = document.querySelector(".log");
@@ -372,7 +369,7 @@ function handleAdminActions() {
     logOut.innerText = "logout";
     filter_gallery.style.display = "none";
     inlineBlock.style.marginBottom = "92px";
-    document.querySelector(".modify").style.display = "flex"
+    document.querySelector(".modify").style.display = "flex";
 
     logOut.addEventListener("click", (event) => {
       const token = window.localStorage.getItem("token");
@@ -387,18 +384,20 @@ function handleAdminActions() {
         logOut.innerText = "login";
         document.querySelector(".modify").style.display = "none";
         document.querySelector(".filter_gallery").style.display = "flex";
-      }
+      };
 
     });
 
   };
 };
 
+// Arrow left of form UI
 document.querySelector(".arrow-left").addEventListener("click", () => {
   getworks();
   setupModalGallery();
 });
 
+// For the size of modal
 function updateModalSize() {
   const modal = document.querySelector(".gallery-modify");
 

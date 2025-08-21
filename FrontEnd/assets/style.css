@@ -349,6 +349,7 @@ li:hover {
 .gallery-modify {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	min-width: 416px;
 	column-gap: 8px;
 	row-gap: 25.50px;
 	justify-content: center;
